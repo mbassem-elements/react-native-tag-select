@@ -5,8 +5,9 @@ import {
   ViewPropTypes,
   Text,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native'
+import { FormattedMessage } from 'react-intl'
 
 TagSelectItem.propTypes = {
   label: PropTypes.string,
@@ -27,12 +28,12 @@ TagSelectItem.propTypes = {
     'success',
     'info',
     'danger',
-    'warning'
+    'warning',
   ]),
   itemStyle: ViewPropTypes.style,
   itemStyleSelected: ViewPropTypes.style,
   itemLabelStyle: PropTypes.any,
-  itemLabelStyleSelected: PropTypes.any
+  itemLabelStyleSelected: PropTypes.any,
 }
 
 TagSelectItem.defaultProps = {
@@ -45,10 +46,10 @@ TagSelectItem.defaultProps = {
   itemStyle: null,
   itemStyleSelected: null,
   itemLabelStyle: null,
-  itemLabelStyleSelected: null
+  itemLabelStyleSelected: null,
 }
 
-function TagSelectItem (props) {
+function TagSelectItem(props) {
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -61,7 +62,7 @@ function TagSelectItem (props) {
             styles[`${props.theme}Inner`],
             props.itemStyle,
             props.selected && styles[`${props.theme}InnerSelected`],
-            props.selected && props.itemStyleSelected
+            props.selected && props.itemStyleSelected,
           ]}
         >
           <Text
@@ -70,10 +71,10 @@ function TagSelectItem (props) {
               styles[`${props.theme}LabelText`],
               props.itemLabelStyle,
               props.selected && styles[`${props.theme}LabelTextSelected`],
-              props.selected && props.itemLabelStyleSelected
+              props.selected && props.itemLabelStyleSelected,
             ]}
           >
-            {props.label}
+            <FormattedMessage id={props.label} />
           </Text>
         </View>
       </TouchableOpacity>
@@ -84,97 +85,97 @@ function TagSelectItem (props) {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   inner: {
     padding: 10,
     borderWidth: 1,
-    borderRadius: 6
+    borderRadius: 6,
   },
   defaultInner: {
     backgroundColor: '#f8f9fa',
-    borderColor: '#f8f9fa'
+    borderColor: '#f8f9fa',
   },
   defaultInnerSelected: {
     backgroundColor: '#6c757d',
-    borderColor: '#6c757d'
+    borderColor: '#6c757d',
   },
   defaultLabelText: {
-    color: '#333333'
+    color: '#333333',
   },
   defaultLabelTextSelected: {
-    color: '#FFF'
+    color: '#FFF',
   },
   inverseInner: {
     backgroundColor: '#FFFFFF',
-    borderColor: '#343a40'
+    borderColor: '#343a40',
   },
   inverseInnerSelected: {
     backgroundColor: '#343a40',
-    borderColor: '#343a40'
+    borderColor: '#343a40',
   },
   inverseLabelText: {
-    color: '#343a40'
+    color: '#343a40',
   },
   inverseLabelTextSelected: {
-    color: '#FFF'
+    color: '#FFF',
   },
   successInner: {
     backgroundColor: '#FFFFFF',
-    borderColor: '#28a745'
+    borderColor: '#28a745',
   },
   successInnerSelected: {
     backgroundColor: '#28a745',
-    borderColor: '#28a745'
+    borderColor: '#28a745',
   },
   successLabelText: {
-    color: '#28a745'
+    color: '#28a745',
   },
   successLabelTextSelected: {
-    color: '#FFF'
+    color: '#FFF',
   },
   infoInner: {
     backgroundColor: '#FFFFFF',
-    borderColor: '#007BFF'
+    borderColor: '#007BFF',
   },
   infoInnerSelected: {
     backgroundColor: '#007bff',
-    borderColor: '#007BFE'
+    borderColor: '#007BFE',
   },
   infoLabelText: {
-    color: '#004085'
+    color: '#004085',
   },
   infoLabelTextSelected: {
-    color: '#FFF'
+    color: '#FFF',
   },
   warningInner: {
     backgroundColor: '#FFFFFF',
-    borderColor: '#ffc107'
+    borderColor: '#ffc107',
   },
   warningInnerSelected: {
     backgroundColor: '#ffc107',
-    borderColor: '#ffc107'
+    borderColor: '#ffc107',
   },
   warningLabelText: {
-    color: '#333'
+    color: '#333',
   },
   warningLabelTextSelected: {
-    color: '#333'
+    color: '#333',
   },
   dangerInner: {
     backgroundColor: '#FFFFFF',
-    borderColor: '#dc3545'
+    borderColor: '#dc3545',
   },
   dangerInnerSelected: {
     backgroundColor: '#dc3545',
-    borderColor: '#dc3545'
+    borderColor: '#dc3545',
   },
   dangerLabelText: {
-    color: '#dc3545'
+    color: '#dc3545',
   },
   dangerLabelTextSelected: {
-    color: '#FFF'
-  }
+    color: '#FFF',
+  },
 })
 
 export default TagSelectItem
