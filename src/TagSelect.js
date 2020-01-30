@@ -27,6 +27,11 @@ class TagSelect extends React.Component {
     getSelectedItems: PropTypes.func,
 
     containerStyle: ViewPropTypes.style,
+
+    /* Any change in the value of this component will reset the selection of the component,
+    Could be something like new Date().getTime(), when it's required to reset the component
+     */
+    resetSelectedStatusFlag: PropTypes.any,
   }
 
   static defaultProps = {
@@ -49,13 +54,25 @@ class TagSelect extends React.Component {
     value: {},
   }
 
-  componentDidMount() {
+  initResetComponent = () => {
     const value = {}
     this.props.value.forEach(val => {
       value[val[[this.props.keyAttr]] || val] = val
     })
 
     this.setState({ value })
+  }
+
+  componentDidMount() {
+    this.initResetComponent()
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (
+      prevProps.resetSelectedStatusFlag !== this.props.resetSelectedStatusFlag
+    ) {
+      this.initResetComponent()
+    }
   }
 
   /**
