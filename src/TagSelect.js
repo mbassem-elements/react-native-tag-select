@@ -4,7 +4,7 @@ import { View, ViewPropTypes, StyleSheet } from 'react-native'
 
 import TagSelectItem from './TagSelectItem'
 
-import { omit, find } from 'lodash'
+import { omit, find, isEqual } from 'lodash'
 class TagSelect extends React.Component {
   static propTypes = {
     // Pre-selected values, you should send the whole object
@@ -104,7 +104,7 @@ class TagSelect extends React.Component {
    */
   handleSelectItem = item => {
     const key = item[this.props.keyAttr] || item
-
+    const { data } = this.props
     let value = { ...this.state.value }
     const found = this.state.value[key]
 
@@ -120,10 +120,45 @@ class TagSelect extends React.Component {
       }
       if (item.isSelectAll) {
         value = {}
+        value[key] = item
       } else {
-        value = omit(value, [find(value, ['isSelectAll', true])?.id])
+        /**
+         Checking the following
+         - There's a isSelectAll among the given data
+         */
+
+        //To check if there's an item with  isSelectAll passed in the data
+        const isSelectAllOptionAvailable =
+          find(data, { isSelectAll: true }) != undefined
+
+        //An array with all the ids of items, except the one with isSelectAll
+        const tmpDataWithoutIsSelectAll = data
+          .filter(i => !i.isSelectAll)
+          .map(i => i.id)
+          .sort()
+
+        const tmpValue = value
+        tmpValue[key] = item
+        //An array of all ids of the selcted items
+        _tmpValueIds = Object.keys(tmpValue).sort()
+
+        //Check if all the selected items are -> all the given items except the one with isSelectAll
+        const areArraysEqual = isEqual(tmpDataWithoutIsSelectAll, _tmpValueIds)
+
+        //if isSelectAll is one of the given options, and all the selected items are all the items, except for the selectAll one
+        if (isSelectAllOptionAvailable && areArraysEqual) {
+          //Reset the selected items, and keep only the 'all' item
+          value = {}
+          const isSelectAllItem = find(data, { isSelectAll: true })
+          value[isSelectAllItem.id] = isSelectAllItem
+        } else {
+          /*omit is used to remove 'isSelectAll' item from selected elements  (in case it's previously selected,
+          and add the new selected item
+          */
+          value = omit(value, [find(value, ['isSelectAll', true])?.id])
+          value[key] = item
+        }
       }
-      value[key] = item
     }
 
     return this.setState({ value }, () => {
