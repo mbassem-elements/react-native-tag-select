@@ -1,12 +1,11 @@
 {
   "name": "react-native-tag-select",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "",
   "main": "index.js",
   "dependencies": {
     "lodash": "^4.17.15",
-    "prop-types": "^15.6.0",
-    "react-intl": "^3.11.0"
+    "prop-types": "^15.6.0"
   },
   "devDependencies": {
     "babel-eslint": "7",
@@ -29,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rafaelmotta/react-native-tag-select.git"
+    "url": "git+https://github.com/mbassem-elements/react-native-tag-select.git"
   },
   "keywords": [
     "react",
