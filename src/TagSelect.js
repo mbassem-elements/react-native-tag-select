@@ -27,6 +27,7 @@ class TagSelect extends React.Component {
     getSelectedItems: PropTypes.func,
 
     containerStyle: ViewPropTypes.style,
+    singleSelect: PropTypes.bool, // to select one item max
 
     /* Any change in the value of this component will reset the selection of the component,
     Could be something like new Date().getTime(), when it's required to reset the component
@@ -48,6 +49,7 @@ class TagSelect extends React.Component {
     onItemPress: null,
 
     containerStyle: {},
+    singleSelect: false,
   }
 
   state = {
@@ -111,7 +113,11 @@ class TagSelect extends React.Component {
     // Item is on array, so user is removing the selection
     if (found) {
       delete value[key]
+    } else if (this?.props?.singleSelect) {
+      value = {}
+      value[key] = item
     } else {
+      
       // User is adding but has reached the max number permitted
       if (this.props.max && this.totalSelected >= this.props.max) {
         if (this.props.onMaxError) {
