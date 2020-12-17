@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
-import { FormattedMessage } from 'react-intl'
 
 TagSelectItem.propTypes = {
   label: PropTypes.string,
@@ -74,7 +73,7 @@ function TagSelectItem(props) {
               props.selected && props.itemLabelStyleSelected,
             ]}
           >
-            <FormattedMessage id={props.label} />
+            {props.label}
           </Text>
         </View>
       </TouchableOpacity>
