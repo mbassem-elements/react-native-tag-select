@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { View, ViewPropTypes, StyleSheet } from 'react-native'
+import { StyleSheet, View, ViewPropTypes } from 'react-native'
 
 import TagSelectItem from './TagSelectItem'
 
-import { omit, find, isEqual } from 'lodash'
+import { find, isEqual, omit } from 'lodash'
+
 class TagSelect extends React.Component {
   static propTypes = {
     // Pre-selected values, you should send the whole object
-    value: PropTypes.array,
+    value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 
     // Objet keys
     labelAttr: PropTypes.string,
@@ -57,10 +58,23 @@ class TagSelect extends React.Component {
   }
 
   initResetComponent = () => {
-    const value = {}
-    this.props.value.forEach(val => {
+    let value = {}
+    console.log('initResetComponent', this.props.value)
+    if (Array.isArray(this.props.value)) {
+      this.props.value.forEach((val) => {
       value[val[[this.props.keyAttr]] || val] = val
     })
+    } else {
+      const _valObj = this?.props?.value
+      if (typeof _valObj === 'object' && Object.keys(_valObj)?.length) {
+        if (_valObj?.id) {
+          value[_valObj.id] = _valObj
+        } else {
+          value = { ..._valObj }
+        }
+      }
+      console.log('not array, handle as object', this.props.value)
+    }
 
     this.setState({ value })
   }
@@ -71,7 +85,9 @@ class TagSelect extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
-      prevProps.resetSelectedStatusFlag !== this.props.resetSelectedStatusFlag
+      prevProps.resetSelectedStatusFlag !==
+        this.props.resetSelectedStatusFlag ||
+      prevProps.value !== this.props.value
     ) {
       this.initResetComponent()
     }
@@ -104,7 +120,7 @@ class TagSelect extends React.Component {
    * @param {Object} item
    * @return {Void}
    */
-  handleSelectItem = item => {
+  handleSelectItem = (item) => {
     const key = item[this.props.keyAttr] || item
     const { data } = this.props
     let value = { ...this.state.value }
@@ -117,7 +133,7 @@ class TagSelect extends React.Component {
       value = {}
       value[key] = item
     } else {
-      
+
       // User is adding but has reached the max number permitted
       if (this.props.max && this.totalSelected >= this.props.max) {
         if (this.props.onMaxError) {
@@ -139,14 +155,14 @@ class TagSelect extends React.Component {
 
         //An array with all the ids of items, except the one with isSelectAll
         const tmpDataWithoutIsSelectAll = data
-          .filter(i => !i.isSelectAll)
-          .map(i => i.id)
+          .filter((i) => !i.isSelectAll)
+          .map((i) => i.id)
           .sort()
 
         const tmpValue = value
         tmpValue[key] = item
         //An array of all ids of the selcted items
-        _tmpValueIds = Object.keys(tmpValue).sort()
+       let _tmpValueIds = Object.keys(tmpValue).sort()
 
         //Check if all the selected items are -> all the given items except the one with isSelectAll
         const areArraysEqual = isEqual(tmpDataWithoutIsSelectAll, _tmpValueIds)
@@ -180,7 +196,7 @@ class TagSelect extends React.Component {
   render() {
     return (
       <View style={[styles.container, this.props.containerStyle]}>
-        {this.props.data.map(i => {
+        {this.props.data.map((i) => {
           return (
             <TagSelectItem
               {...this.props}

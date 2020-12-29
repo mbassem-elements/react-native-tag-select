@@ -1,6 +1,6 @@
 {
   "name": "react-native-tag-select",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "",
   "main": "index.js",
   "dependencies": {
@@ -19,7 +19,6 @@
     "prettier": "^1.11.1",
     "react": "16.2.0",
     "react-addons-test-utils": "^15.6.2",
-    "react-dom": "^16.2.0",
     "react-test-renderer": "16.2.0"
   },
   "scripts": {
