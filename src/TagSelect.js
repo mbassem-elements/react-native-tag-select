@@ -59,7 +59,7 @@ class TagSelect extends React.Component {
 
   initResetComponent = () => {
     let value = {}
-    console.log('initResetComponent', this.props.value)
+    // console.log('initResetComponent', this.props.value)
     if (Array.isArray(this.props.value)) {
       this.props.value.forEach((val) => {
       value[val[[this.props.keyAttr]] || val] = val
@@ -73,7 +73,7 @@ class TagSelect extends React.Component {
           value = { ..._valObj }
         }
       }
-      console.log('not array, handle as object', this.props.value)
+      // console.log('not array, handle as object', this.props.value)
     }
 
     this.setState({ value })
